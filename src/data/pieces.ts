@@ -46,3 +46,30 @@ export function kindGroup(p: Piece): KindGroup {
       return 'audio'
   }
 }
+
+// The still image that stands in for a piece wherever it isn't running live: the
+// prerendered page, off-screen tiles, reduced motion, thumbnails and link previews.
+// Shaders use captures from scripts/capture-stills.ts; sound has no picture.
+export function stillSrc(p: Piece): string | undefined {
+  switch (p.kind) {
+    case 'shader':
+      return `/stills/${p.slug}.webp`
+    case 'image':
+      return p.images[0].src
+    case 'video':
+      return p.clips[0].poster
+    default:
+      return undefined
+  }
+}
+
+export function stillCard(p: Piece): string | undefined {
+  switch (p.kind) {
+    case 'shader':
+      return `/stills/${p.slug}-card.webp`
+    case 'image':
+      return p.images[0].card
+    default:
+      return stillSrc(p)
+  }
+}
