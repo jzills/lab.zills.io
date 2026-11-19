@@ -82,6 +82,8 @@ export function useOwnContextRunner(
       canvas,
       (on) => {
         visible = on
+        // Lets a page (or a debugging console) count the shaders animating right now.
+        canvas.toggleAttribute('data-running', on)
         if (on) play()
         else pause()
       },
