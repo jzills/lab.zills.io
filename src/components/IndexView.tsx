@@ -20,9 +20,9 @@ export function IndexView({ pieces }: { pieces: Piece[] }) {
                 onFocus={() => setActive(i)}
                 className={`group grid grid-cols-[44px_1fr_72px] items-center gap-x-2 border-b border-zinc-900 py-3 outline-none wide:grid-cols-[58px_1fr_auto] wide:items-baseline ${i === active ? 'is-active' : ''}`}
               >
-                <span className="font-mono text-[11px] text-zinc-500 group-[.is-active]:text-accent">{String(i + 1).padStart(3, '0')}</span>
+                <span className="font-mono text-[11px] text-muted group-[.is-active]:text-accent">{String(i + 1).padStart(3, '0')}</span>
                 <span className="text-xl font-semibold tracking-[-0.025em] text-zinc-400 transition-colors group-hover:text-fg group-focus-visible:text-fg group-focus-visible:underline group-[.is-active]:text-fg wide:text-3xl">{p.title}</span>
-                <span className="hidden font-mono text-[10px] tracking-[0.1em] text-zinc-500 uppercase wide:inline">{kindLabel[p.kind]}</span>
+                <span className="hidden font-mono text-[10px] tracking-[0.1em] text-muted uppercase wide:inline">{kindLabel[p.kind]}</span>
                 {thumb ? (
                   <img src={thumb} alt="" loading="lazy" className="h-[54px] w-[72px] object-cover wide:hidden" />
                 ) : (
