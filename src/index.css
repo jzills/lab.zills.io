@@ -17,6 +17,12 @@
 
 }
 
+/* Hover styles switch on while a mouse is in use, as detected by
+   public/pointer-init.js. Tailwind's default (hover: hover) media query is
+   false on some touchscreen laptops even with a mouse; phones never get the
+   attribute, so taps don't stick. */
+@custom-variant hover (&:where([data-pointer=mouse] *):hover);
+
 :root {
   color-scheme: dark;
 }
@@ -119,8 +125,8 @@ a.shard:is(:hover, :focus-visible) .shard-glow-hot {
 .shard-cursor {
   display: none;
 }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .shard-cursor {
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-pointer="mouse"] .shard-cursor {
     display: block;
     position: absolute;
     inset: 0;
@@ -148,18 +154,13 @@ a.shard:is(:hover, :focus-visible) .shard-glow-hot {
   }
 }
 
-/* Tile captions: on hover or focus with a pointer, always on touch. */
+/* Tile captions: always on, until a mouse is in use (data-pointer, set by
+   public/pointer-init.js); then only on hover or focus. */
 .tile-caption {
-  opacity: 0;
   transition: opacity 200ms;
 }
-.tile:is(:hover, :focus-visible) .tile-caption {
-  opacity: 1;
-}
-@media (hover: none) {
-  .tile-caption {
-    opacity: 1;
-  }
+:root[data-pointer="mouse"] .tile:not(:hover, :focus-visible) .tile-caption {
+  opacity: 0;
 }
 .tile:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-accent);

@@ -1,5 +1,6 @@
-import { useRef } from 'react'
+import { useRef, type PointerEvent } from 'react'
 import { AudioLines } from 'lucide-react'
+import { previewsOnHover } from '@/lib/pointer'
 import type { Piece } from '@/data/pieces'
 import { ShaderCanvas } from '@/components/ShaderCanvas'
 
@@ -22,10 +23,10 @@ function SoundPanel({ className = '' }: { className?: string }) {
 
 function HoverVideo({ src, poster, alt }: { src: string; poster: string; alt: string }) {
   const ref = useRef<HTMLVideoElement>(null)
-  // Muted preview while hovered with a fine pointer; never under reduced motion.
-  const play = () => {
+  // Muted preview while hovered with a mouse; never under reduced motion.
+  const play = (e: PointerEvent<HTMLVideoElement>) => {
     const v = ref.current
-    if (!v || !matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) return
+    if (!v || !previewsOnHover(e.pointerType, matchMedia('(prefers-reduced-motion: reduce)').matches)) return
     v.play().catch(() => {})
   }
   const stop = () => ref.current?.pause()
