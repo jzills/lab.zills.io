@@ -12,6 +12,9 @@
   --color-muted: #8b8b94;
   --color-accent: #a78bfa;
 
+  /* Four mosaic columns and the Index preview from here up. */
+  --breakpoint-wide: 56.25rem;
+
 }
 
 :root {
@@ -128,4 +131,61 @@ a.shard:is(:hover, :focus-visible) .shard-glow-hot {
   a.shard:hover .shard-cursor {
     opacity: 1;
   }
+}
+
+/* Keeps the hero's text readable over any shader. */
+.hero-shade {
+  background: linear-gradient(180deg, rgb(9 9 11 / 0.55) 0%, rgb(9 9 11 / 0) 28%, rgb(9 9 11 / 0) 48%, rgb(9 9 11 / 0.92) 100%);
+}
+
+/* The mosaic's rows: 170px on phones, 230px from the wide breakpoint. */
+.mosaic {
+  grid-auto-rows: 170px;
+}
+@media (width >= 56.25rem) {
+  .mosaic {
+    grid-auto-rows: 230px;
+  }
+}
+
+/* Tile captions: on hover or focus with a pointer, always on touch. */
+.tile-caption {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+.tile:is(:hover, :focus-visible) .tile-caption {
+  opacity: 1;
+}
+@media (hover: none) {
+  .tile-caption {
+    opacity: 1;
+  }
+}
+.tile:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+.tile:focus-visible > :first-child {
+  /* Keeps the inset ring above the media. */
+  z-index: -1;
+}
+
+.cut-corner {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+}
+
+/* Tiles fade in once, from the prerendered HTML. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes tile-in {
+    from {
+      opacity: 0;
+    }
+  }
+  .tile-in {
+    animation: tile-in 400ms ease-out backwards;
+    animation-delay: calc(var(--i, 0) * 30ms);
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
 }

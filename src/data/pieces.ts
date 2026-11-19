@@ -73,3 +73,6 @@ export function stillCard(p: Piece): string | undefined {
       return stillSrc(p)
   }
 }
+
+// A piece's kind as shown in captions and labels.
+export const kindLabel = { shader: 'Shader', image: 'Image', video: 'Video', music: 'Music', audio: 'Audio' } as const

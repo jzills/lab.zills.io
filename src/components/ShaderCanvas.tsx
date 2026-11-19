@@ -18,7 +18,10 @@ function detect() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
   if (new URLSearchParams(location.search).has('nogl')) return false
   try {
-    return !!document.createElement('canvas').getContext('webgl')
+    const gl = document.createElement('canvas').getContext('webgl')
+    // Give the probe's context back at once: phones cap how many can exist.
+    gl?.getExtension('WEBGL_lose_context')?.loseContext()
+    return !!gl
   } catch {
     return false
   }
@@ -72,7 +75,7 @@ export function ShaderCanvas({ piece, variant = 0, size, className = '' }: Props
     <div className={`relative overflow-hidden bg-black ${className}`}>
       <img src={src} alt={`${piece.title} — shader`} className="absolute inset-0 h-full w-full object-cover" loading={size === 'card' ? 'lazy' : 'eager'} />
       {run && (
-        <LazyMount className="absolute inset-0" keep={sharedShaderContext} rootMargin="200px 0px">
+        <LazyMount className="absolute inset-0" keep={sharedShaderContext} rootMargin={sharedShaderContext ? '200px 0px' : '50px 0px'}>
           <Live key={variant} piece={piece} variant={variant} />
         </LazyMount>
       )}

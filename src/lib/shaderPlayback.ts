@@ -8,7 +8,9 @@ export const coarse = typeof window !== 'undefined' && window.matchMedia('(point
 
 // On touch devices only the middle band of the screen animates, so a page of
 // shaders runs about one at a time; on desktop it's the grid row most on screen.
-const animateBand = '-35% 0px -35% 0px'
+// Phones animate only shaders crossing this band through the middle of the screen. Narrower
+// than on j.zills.io because the Lab's mosaic puts two tiles side by side.
+const animateBand = '-42% 0px -42% 0px'
 
 // Whether the visitor last moved focus with the keyboard. Escape doesn't count: it
 // closes things, and closing the lightbox hands focus back to the card that opened it,
