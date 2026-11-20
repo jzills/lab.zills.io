@@ -5,9 +5,10 @@ export function Footer() {
     <footer className="border-t border-border/60 px-5 py-6 font-mono text-[11px] text-muted sm:px-7">
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2.5">
-          <span className="font-sans text-sm font-extrabold tracking-[-0.03em] text-fg">
+          {/* Clicking the mark goes to the hub too; the text link beside it is the one keyboards and screen readers get. */}
+          <a href="https://zills.io/" tabIndex={-1} aria-hidden="true" className="font-sans text-sm font-extrabold tracking-[-0.03em] text-fg transition-opacity hover:opacity-80">
             Z<span className="font-semibold text-fg/55">/</span>LLS
-          </span>
+          </a>
           <span aria-hidden="true" className="h-3.5 w-px bg-border" />
           <a href="https://zills.io/" className="transition-colors hover:text-fg">
             zills.io <span aria-hidden="true">↗</span>

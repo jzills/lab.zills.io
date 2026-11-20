@@ -15,4 +15,8 @@ describe('Footer', () => {
     expect(html).toContain('href="https://zills.io/"')
     expect(text.replace(/<!-- -->/g, '')).toMatch(/^Z\/LLSzills\.io ↗© \d{4} Joshua Zillwood$/)
   })
+
+  it('links the Z/LLS mark to zills.io', () => {
+    expect(html).toMatch(/<a[^>]*href="https:\/\/zills\.io\/"[^>]*>Z<span[^>]*>\/<\/span>LLS<\/a>/)
+  })
 })
