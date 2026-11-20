@@ -38,9 +38,7 @@ describe('Home', () => {
     expect(html).toContain('href="https://zills.io/"')
   })
 
-  it('leaves the header without the Lab. mark, since the hero carries the wordmark', () => {
-    const header = home().match(/<header[\s\S]*?<\/header>/)![0]
-    expect(header).not.toContain('Lab<')
-    expect(header).toContain('Shaders')
+  it('has no header: the hero carries the wordmark and the filter bar the kinds', () => {
+    expect(home()).not.toContain('<header')
   })
 })

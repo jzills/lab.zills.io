@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { creativeItems } from './creative'
-import { heroPool, kindGroup, pieceBySlug, piecePath, pieces } from './pieces'
+import { heroPool, kindGroup, pieceBySlug, piecePath, pieces, sizedSlugs } from './pieces'
 import { slug } from '@/lib/slug'
 
 describe('pieces', () => {
@@ -28,7 +28,7 @@ describe('pieces', () => {
   })
 
   it('gives each piece a page path', () => {
-    expect(piecePath(pieceBySlug('molten')!)).toBe('/molten/')
+    expect(piecePath(pieceBySlug('contours')!)).toBe('/contours/')
   })
 
   it('serves media from /media/', () => {
@@ -42,5 +42,14 @@ describe('buildPieces', () => {
     const { buildPieces } = await import('./pieces')
     const a = creativeItems[0]
     expect(() => buildPieces([a, { ...a, title: a.title.toUpperCase() }])).toThrow(/both slug to/)
+  })
+
+  it('leaves out the cut images and gives Contours a big tile', () => {
+    for (const cut of ['molten', 'tendrils', 'facets', 'terraces']) expect(pieceBySlug(cut)).toBeUndefined()
+    expect(pieceBySlug('contours')?.size).toBe('big')
+  })
+
+  it('only sizes pieces that exist', () => {
+    for (const s of sizedSlugs) expect(pieceBySlug(s), s).toBeDefined()
   })
 })
