@@ -11,7 +11,8 @@ describe('Footer', () => {
     expect(text).toContain(`© ${new Date().getFullYear()} Joshua Zillwood`)
   })
 
-  it('links back to the hub', () => {
+  it('links back to the hub right beside the mark, above the copyright', () => {
     expect(html).toContain('href="https://zills.io/"')
+    expect(text.replace(/<!-- -->/g, '')).toMatch(/^Z\/LLSzills\.io ↗© \d{4} Joshua Zillwood$/)
   })
 })
