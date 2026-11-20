@@ -11,7 +11,9 @@ const sizes: Record<string, TileSize> = {
   'spiral-tunnel': 'big',
   contours: 'big',
   interference: 'wide',
-  driftcast: 'wide',
+  thermal: 'wide',
+  driftcast: 'big',
+  bloom: 'big',
   symmetry: 'tall',
 }
 
@@ -37,16 +39,18 @@ export const pieceBySlug = (s: string) => bySlug.get(s)
 export const piecePath = (p: Piece) => `/${p.slug}/`
 export const heroPool = pieces.filter((p) => p.hero)
 
-export function kindGroup(p: Piece): KindGroup {
+// The filters a piece shows under. A video with a soundtrack is sound work as much as
+// moving image, so it counts as Audio too.
+export function kindGroups(p: Piece): KindGroup[] {
   switch (p.kind) {
     case 'shader':
-      return 'shaders'
+      return ['shaders']
     case 'video':
-      return 'video'
+      return p.sound ? ['video', 'audio'] : ['video']
     case 'image':
-      return 'images'
+      return ['images']
     default:
-      return 'audio'
+      return ['audio']
   }
 }
 

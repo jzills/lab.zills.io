@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { drawShader, shaderTarget, subscribeShader } from '@/lib/shaderPool'
 import type { ShaderProgram } from '@/lib/shaderPool'
-import { coarse, watchAnimate } from '@/lib/shaderPlayback'
+import { phoneShaders, watchAnimate } from '@/lib/shaderPlayback'
 import { useOwnContextRunner } from '@/lib/shaderOwnContext'
 
 type Clock = {
@@ -112,8 +112,8 @@ function useSharedContextRunner(
 // nothing is created or destroyed as cards scroll past. Phones give each card its
 // own context instead, which ran heavy shaders far better there. Chosen once per
 // page load, so the hook a component calls never changes.
-export const useShaderRunner = coarse ? useOwnContextRunner : useSharedContextRunner
+export const useShaderRunner = phoneShaders ? useOwnContextRunner : useSharedContextRunner
 
 // Shader cards can stay mounted after scrolling away only with the shared context;
 // with a context per card, unmounting is what frees them.
-export const sharedShaderContext = !coarse
+export const sharedShaderContext = !phoneShaders

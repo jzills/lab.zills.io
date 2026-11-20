@@ -26,6 +26,11 @@ describe('Home', () => {
     }
   })
 
+  it('lists videos with sound under Audio too', () => {
+    const audio = home('?kind=audio')
+    for (const s of ['driftcast', 'bloom']) expect(audio).toContain(`href="/${s}/"`)
+  })
+
   it('shows the index view as an ordered list', () => {
     expect(home('?view=index')).toContain('<ol')
   })

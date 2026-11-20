@@ -3,8 +3,19 @@
 // row most on screen. Shared by both ways of running shaders (see useShaderRunner).
 import { animateInRow } from '@/lib/animateRow'
 
-// Guarded for prerendering, which has no window; the hook itself only runs in the browser.
-export const coarse = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+// Whether shaders run the phone way: a WebGL context per tile, animating in a band
+// through the middle of the screen. Browsers drop the oldest context past about 16, so
+// this is only for touch screens showing the narrow two-column mosaic. A touchscreen
+// laptop reports a touch pointer too, but its four columns would need more contexts
+// than Chrome allows, and tiles whose context was dropped went blank as it scrolled.
+export function usesPhoneShaders({ coarse, wide }: { coarse: boolean; wide: boolean }) {
+  return coarse && !wide
+}
+
+// Decided once per page load. Guarded for prerendering, which has no window.
+const matches = (query: string) => typeof window !== 'undefined' && window.matchMedia(query).matches
+// --breakpoint-wide in index.css: four mosaic columns from here up.
+export const phoneShaders = usesPhoneShaders({ coarse: matches('(pointer: coarse)'), wide: matches('(min-width: 56.25rem)') })
 
 // On touch devices only the middle band of the screen animates, so a page of
 // shaders runs about one at a time; on desktop it's the grid row most on screen.
@@ -56,8 +67,8 @@ function watchHover(target: HTMLElement, onChange: (on: boolean) => void) {
 }
 
 export function watchAnimate(el: HTMLElement, onChange: (on: boolean) => void, hoverTarget?: HTMLElement | null) {
-  if (!coarse && hoverTarget) return watchHover(hoverTarget, onChange)
-  if (!coarse) return animateInRow(el, onChange)
+  if (!phoneShaders && hoverTarget) return watchHover(hoverTarget, onChange)
+  if (!phoneShaders) return animateInRow(el, onChange)
   const observer = new IntersectionObserver(([entry]) => onChange(entry.isIntersecting), { rootMargin: animateBand })
   observer.observe(el)
   return () => observer.disconnect()
