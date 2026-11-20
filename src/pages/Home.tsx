@@ -1,5 +1,4 @@
 import { useSyncExternalStore } from 'react'
-import { Header } from '@/components/Header'
 import { Hero } from '@/components/Hero'
 import { FilterBar } from '@/components/FilterBar'
 import { Grid } from '@/components/Grid'
@@ -16,14 +15,10 @@ export function Home({ initialSearch }: { initialSearch: string }) {
   const shown = query.kind === 'all' ? pieces : pieces.filter((p) => kindGroup(p) === query.kind)
 
   const change = (q: Query) => setQuery(q)
-  const jump = (kind: Query['kind']) => {
-    setQuery({ ...query, kind })
-    document.getElementById('work')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
-  }
 
   return (
     <div className="min-h-svh bg-bg">
-      <Header onKind={jump} mark={false} />
+      {/* No header: the hero carries the wordmark, and the filter bar the kinds. */}
       <Hero />
       <main id="work" className="scroll-mt-0">
         <FilterBar query={query} count={shown.length} onChange={change} />
