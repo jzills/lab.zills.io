@@ -37,4 +37,10 @@ describe('Home', () => {
   it('links back to zills.io', () => {
     expect(html).toContain('href="https://zills.io/"')
   })
+
+  it('leaves the header without the Lab. mark, since the hero carries the wordmark', () => {
+    const header = home().match(/<header[\s\S]*?<\/header>/)![0]
+    expect(header).not.toContain('Lab<')
+    expect(header).toContain('Shaders')
+  })
 })

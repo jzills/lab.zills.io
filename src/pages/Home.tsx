@@ -23,7 +23,7 @@ export function Home({ initialSearch }: { initialSearch: string }) {
 
   return (
     <div className="min-h-svh bg-bg">
-      <Header onKind={jump} />
+      <Header onKind={jump} mark={false} />
       <Hero />
       <main id="work" className="scroll-mt-0">
         <FilterBar query={query} count={shown.length} onChange={change} />
