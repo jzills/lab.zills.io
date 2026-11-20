@@ -9,7 +9,7 @@ export type KindGroup = 'shaders' | 'video' | 'images' | 'audio'
 // Layout choices kept here, so creative.ts stays a clean copy of the resume site's data.
 const sizes: Record<string, TileSize> = {
   'spiral-tunnel': 'big',
-  molten: 'wide',
+  contours: 'big',
   interference: 'wide',
   driftcast: 'wide',
   symmetry: 'tall',
@@ -28,6 +28,9 @@ export function buildPieces(items: CreativeItem[]): Piece[] {
 }
 
 export const pieces: Piece[] = buildPieces(creativeItems)
+
+// Every slug given a tile size, so a renamed or removed piece can't leave a stale entry.
+export const sizedSlugs = Object.keys(sizes)
 
 const bySlug = new Map(pieces.map((p) => [p.slug, p]))
 export const pieceBySlug = (s: string) => bySlug.get(s)
