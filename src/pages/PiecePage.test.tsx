@@ -23,4 +23,9 @@ describe('piece pages', () => {
   it('refuses unknown paths', () => {
     expect(() => render('/nope/')).toThrow()
   })
+
+  it('keeps the Lab. mark in the header, linking home', () => {
+    const header = render('/molten/').html.match(/<header[\s\S]*?<\/header>/)![0]
+    expect(header).toMatch(/<a href="\/"[^>]*>Lab<span/)
+  })
 })

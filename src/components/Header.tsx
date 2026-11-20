@@ -7,13 +7,18 @@ const links: { kind: KindFilter; label: string }[] = [
   { kind: 'audio', label: 'Audio' },
 ]
 
-// Floats over the hero. Only the site's own name and sections: zills.io is the hub.
-export function Header({ onKind }: { onKind?: (kind: KindFilter) => void }) {
+// Floats over the page. Only the site's own name and sections: zills.io is the hub.
+// The home page leaves the mark out (mark={false}), since its hero carries the wordmark.
+export function Header({ onKind, mark = true }: { onKind?: (kind: KindFilter) => void; mark?: boolean }) {
   return (
     <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-5 py-5 sm:px-7">
-      <a href="/" className="text-xl font-extrabold tracking-[-0.03em] text-fg">
-        Lab<span className="text-accent">.</span>
-      </a>
+      {mark ? (
+        <a href="/" className="text-xl font-extrabold tracking-[-0.03em] text-fg">
+          Lab<span className="text-accent">.</span>
+        </a>
+      ) : (
+        <span />
+      )}
       {onKind && (
         <nav aria-label="Kinds" className="hidden gap-5 text-[13px] text-zinc-300 sm:flex">
           {links.map((l) => (
