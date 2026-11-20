@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { creativeItems } from './creative'
-import { heroPool, kindGroup, pieceBySlug, piecePath, pieces, sizedSlugs } from './pieces'
+import { heroPool, kindGroups, pieceBySlug, piecePath, pieces, sizedSlugs } from './pieces'
+import type { Piece } from './pieces'
 import { slug } from '@/lib/slug'
 
 describe('pieces', () => {
@@ -22,9 +23,19 @@ describe('pieces', () => {
     for (const p of heroPool) expect(p.kind).toBe('shader')
   })
 
-  it('groups music with audio', () => {
-    const music = pieces.find((p) => p.kind === 'music')!
-    expect(kindGroup(music)).toBe('audio')
+  it('files videos with sound under both Video and Audio', () => {
+    for (const s of ['driftcast', 'bloom']) expect(kindGroups(pieceBySlug(s)!), s).toEqual(['video', 'audio'])
+    expect(kindGroups(pieceBySlug('contours')!)).toEqual(['images'])
+  })
+
+  it('files music under Audio', () => {
+    const music = { kind: 'music', title: 'KO', slug: 'ko' } as Piece
+    expect(kindGroups(music)).toEqual(['audio'])
+  })
+
+  it('leaves the Bandcamp releases to the audio site and makes Driftcast a big tile', () => {
+    expect(pieces.filter((p) => p.kind === 'music')).toEqual([])
+    expect(pieceBySlug('driftcast')?.size).toBe('big')
   })
 
   it('gives each piece a page path', () => {

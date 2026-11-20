@@ -4,7 +4,8 @@ import { FilterBar } from '@/components/FilterBar'
 import { Grid } from '@/components/Grid'
 import { IndexView } from '@/components/IndexView'
 import { Footer } from '@/components/Footer'
-import { kindGroup, pieces } from '@/data/pieces'
+import { kindGroups, pieces } from '@/data/pieces'
+import type { KindGroup } from '@/data/pieces'
 import { getSearch, parseQuery, setQuery, subscribeSearch } from '@/lib/query'
 import type { Query } from '@/lib/query'
 
@@ -12,7 +13,7 @@ import type { Query } from '@/lib/query'
 export function Home({ initialSearch }: { initialSearch: string }) {
   const search = useSyncExternalStore(subscribeSearch, getSearch, () => initialSearch)
   const query = parseQuery(search)
-  const shown = query.kind === 'all' ? pieces : pieces.filter((p) => kindGroup(p) === query.kind)
+  const shown = query.kind === 'all' ? pieces : pieces.filter((p) => kindGroups(p).includes(query.kind as KindGroup))
 
   const change = (q: Query) => setQuery(q)
 

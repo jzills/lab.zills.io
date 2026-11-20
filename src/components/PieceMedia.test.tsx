@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { renderToString } from 'react-dom/server'
 import { PieceMedia } from './PieceMedia'
 import { pieces } from '@/data/pieces'
+import type { Piece } from '@/data/pieces'
 
-const first = (kind: string) => pieces.find((p) => p.kind === kind)!
+// Music has left the Lab's data for the audio site; the player still renders it.
+const ko = { kind: 'music', title: 'KO', description: '', tags: [], slug: 'ko', bandcamp: { album: 1163472419, track: 802633773 }, url: 'https://desmata.bandcamp.com/album/mental-floss' } as unknown as Piece
+const first = (kind: string) => (kind === 'music' ? ko : pieces.find((p) => p.kind === kind)!)
 
 describe('PieceMedia', () => {
   it('shows a shader card as its still until it runs', () => {

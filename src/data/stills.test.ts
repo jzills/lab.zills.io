@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { pieces, stillCard, stillSrc } from './pieces'
+import type { Piece } from './pieces'
 
 const files = new Set(Object.keys(import.meta.glob('/public/stills/*.webp', { query: '?url' })).map((p) => p.replace('/public', '')))
 
@@ -16,6 +17,6 @@ describe('stills', () => {
     expect(stillCard(image)).toMatch(/^\/media\/.+-card\.webp$/)
     const video = pieces.find((p) => p.kind === 'video')!
     expect(stillSrc(video)).toMatch(/poster/)
-    expect(stillSrc(pieces.find((p) => p.kind === 'music')!)).toBeUndefined()
+    expect(stillSrc({ kind: 'music', title: 'KO', slug: 'ko' } as Piece)).toBeUndefined()
   })
 })
