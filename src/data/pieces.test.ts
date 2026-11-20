@@ -36,6 +36,9 @@ describe('pieces', () => {
   it('leaves the Bandcamp releases to the audio site and makes Driftcast a big tile', () => {
     expect(pieces.filter((p) => p.kind === 'music')).toEqual([])
     expect(pieceBySlug('driftcast')?.size).toBe('big')
+    expect(pieceBySlug('bloom')?.size).toBe('big')
+    // Thermal goes wide so the full mosaic and the Images filter both fill every row.
+    expect(pieceBySlug('thermal')?.size).toBe('wide')
   })
 
   it('gives each piece a page path', () => {

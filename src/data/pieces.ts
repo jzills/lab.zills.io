@@ -11,7 +11,9 @@ const sizes: Record<string, TileSize> = {
   'spiral-tunnel': 'big',
   contours: 'big',
   interference: 'wide',
+  thermal: 'wide',
   driftcast: 'big',
+  bloom: 'big',
   symmetry: 'tall',
 }
 
